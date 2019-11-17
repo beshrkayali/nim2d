@@ -4,6 +4,7 @@ import nim2d, nim2d/graphics
 let f1 = newFont("font.ttf", 72)
 let f2 = newFont("font.ttf", 110)
 
+var DT: float = 0.0
 var X: int16 = 50
 var Y: int16 = 420
 
@@ -48,7 +49,9 @@ n2d.mousereleased = proc(nim2d: Nim2d, x, y: int32, button, presses: uint8) =
 n2d.load = proc (nim2d: Nim2d) =
   nim2d.setBackgroundColor(82, 93, 197)
 
-n2d.update = proc (nim2d: Nim2d) =
+n2d.update = proc (nim2d: Nim2d, dt: float) =
+  DT = dt
+
   if anf:
     inc an
   else:
@@ -58,6 +61,9 @@ n2d.update = proc (nim2d: Nim2d) =
     anf = not anf
 
 n2d.draw = proc (nim2d: Nim2d) =
+  nim2d.setColor(0, 0, 0, 255)
+  nim2d.string($DT, 10, 10)
+
   nim2d.setColor(220, 249, 80, 255)
   nim2d.print("NIM", 400, 300, f1)
 

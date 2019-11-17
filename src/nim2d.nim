@@ -14,7 +14,7 @@ type
     # Callbacks
     load: proc(nim2d: Nim2d)
     draw: proc(nim2d: Nim2d)
-    update: proc(nim2d: Nim2d)
+    update: proc(nim2d: Nim2d, dt: float)
     keydown: proc(nim2d: Nim2d, scancode: Scancode)
     keyup: proc(nim2d: Nim2d, scancode: Scancode)
     mousemove: proc(nim2d: Nim2d, x, y, dx, dy: int32)
@@ -41,7 +41,7 @@ type
 proc `load=`*(n2d: Nim2d, load: proc (nim2d: Nim2d)) {.inline.} =
   n2d.load = load
 
-proc `update=`*(n2d: Nim2d, update: proc (nim2d: Nim2d)) {.inline.} =
+proc `update=`*(n2d: Nim2d, update: proc (nim2d: Nim2d, dt: float)) {.inline.} =
   n2d.update = update
 
 proc `draw=`*(n2d: Nim2d, draw: proc (nim2d: Nim2d)) {.inline.} =
@@ -131,7 +131,7 @@ proc newNim2d*(title: string, x, y, width, height: cint, background: tuple[r, g,
     running: true,
 
     load: proc (nim2d: Nim2d) = discard,
-    update: proc (nim2d: Nim2d) = discard,
+    update: proc (nim2d: Nim2d, dt: float) = discard,
     draw: proc (nim2d: Nim2d) = discard,
     keydown: proc (nim2d: Nim2d, scancode: Scancode) = discard,
     keyup: proc (nim2d: Nim2d, scancode: Scancode) = discard,
@@ -228,7 +228,7 @@ proc play*(nim2d: Nim2d): void =
 
     nim2d.renderer.present
     nim2d.fpsman.delay
-    nim2d.update(nim2d)
+    nim2d.update(nim2d, dt)
 
   destroy nim2d.renderer
   destroy nim2d.window
