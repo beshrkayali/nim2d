@@ -1,7 +1,11 @@
+import sdl2
 import nim2d, nim2d/graphics
 
 let f1 = newFont("font.ttf", 72)
 let f2 = newFont("font.ttf", 110)
+
+var x: int16 = 50
+let y: int16 = 420
 
 var an: int16 = 2
 var anf: bool = true
@@ -12,6 +16,18 @@ let n2d = newNim2d(
   0, 0,
   1024, 768,
 )
+
+n2d.keydown = proc (nim2d: Nim2d, scancode: Scancode) =
+  if scancode == Scancode.SDL_SCANCODE_A:
+    x -= 5
+  elif scancode == Scancode.SDL_SCANCODE_D:
+    x += 5
+
+n2d.keyup = proc (nim2d: Nim2d, scancode: Scancode) =
+  if scancode == Scancode.SDL_SCANCODE_A:
+    x -= 5
+  elif scancode == Scancode.SDL_SCANCODE_D:
+    x += 5
 
 n2d.load = proc (nim2d: Nim2d) =
   nim2d.setBackgroundColor(82, 93, 197)
@@ -53,7 +69,7 @@ n2d.draw = proc (nim2d: Nim2d) =
   nim2d.rectangle(20, 350, 40, 20, true, 5)
   nim2d.rectangle(70, 350, 40, 20, false, 5)
 
-  nim2d.pie(50, 420, 30, an, an * -1, true)
+  nim2d.pie(x, y, 30, an, an * -1, true)
 
   nim2d.ellipse(100, 500, 50, 25, true)
   nim2d.ellipse(220, 500, 50, 25)
