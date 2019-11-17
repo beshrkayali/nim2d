@@ -13,6 +13,8 @@ type
     load: proc(nim2d: Nim2d)
     draw: proc(nim2d: Nim2d)
     update: proc(nim2d: Nim2d)
+    keydown: proc(nim2d: Nim2d, scancode: Scancode)
+    keyup: proc(nim2d: Nim2d, scancode: Scancode)
 
 proc `load=`*(n2d: Nim2d, load: proc (nim2d: NIm2d)) {.inline.} =
   n2d.load = load
@@ -22,6 +24,12 @@ proc `update=`*(n2d: Nim2d, update: proc (nim2d: NIm2d)) {.inline.} =
 
 proc `draw=`*(n2d: Nim2d, draw: proc (nim2d: NIm2d)) {.inline.} =
   n2d.draw = draw
+
+proc `keydown=`*(n2d: Nim2d, keydown: proc (nim2d: NIm2d, scancode: Scancode)) {.inline.} =
+  n2d.keydown = keydown
+
+proc `keyup=`*(n2d: Nim2d, keyup: proc (nim2d: NIm2d, scancode: Scancode)) {.inline.} =
+  n2d.keyup = keyup
 
 proc newNim2d*(title: string, x, y, width, height: cint, background: tuple[r, g, b, a: uint8]): Nim2d =
   let window: WindowPtr = createWindow(
@@ -48,6 +56,13 @@ proc newNim2d*(title: string, x, y, width, height: cint, background: tuple[r, g,
     renderer: renderer,
     fpsman: FpsManager(),
     running: true,
+
+    load: proc (nim2d: Nim2d) = discard,
+    update: proc (nim2d: Nim2d) = discard,
+    draw: proc (nim2d: Nim2d) = discard,
+    keydown: proc (nim2d: Nim2d, scancode: Scancode) = discard,
+    keyup: proc (nim2d: Nim2d, scancode: Scancode) = discard,
+    
   )
 
 proc newNim2d*(title: string, x, y, width, height: cint): Nim2d =
@@ -63,6 +78,14 @@ proc play*(nim2d: Nim2d): void =
     while pollEvent(evt):
       if evt.kind == QuitEvent:
         nim2d.running = false
+        break
+
+      if evt.kind == KeyDown:
+        nim2d.keydown(nim2d, evt.key.keysym.scancode)
+        break
+
+      if evt.kind == KeyUp:
+        nim2d.keyup(nim2d, evt.key.keysym.scancode)
         break
 
     let dt = nim2d.fpsman.getFramerate() / 1000
