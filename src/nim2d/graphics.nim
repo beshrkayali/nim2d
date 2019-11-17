@@ -1,11 +1,40 @@
 import nim2d
-import sdl2, sdl2/ttf, sdl2/gfx
+import sdl2, sdl2/ttf, sdl2/gfx, sdl2/image
 
 ttfInit()
 
 type
   Font* = object
     fptr: FontPtr
+
+type
+  Image* = object
+    texture: TexturePtr
+    width: cint
+    height: cint
+
+# Images
+# ------
+    
+proc newImage*(nim2d: Nim2d, file: string): Image =
+  let surfaceImage: SurfacePtr = image.load(cstring file)
+
+  let texture = createTextureFromSurface(nim2d.renderer, surfaceImage)
+
+  let img = Image(
+    texture: texture
+  )
+
+  queryTexture(texture, nil, nil, unsafeAddr img.width, unsafeAddr img.height)
+
+  return img
+
+
+proc draw*(nim2d: Nim2d, image: Image, x, y: cint) =
+  let rect: Rect = (x, y, image.width, image.height)
+
+  copy(nim2d.renderer, image.texture, nil, unsafeAddr rect)
+
 
 # Drawing
 # -------
@@ -98,5 +127,4 @@ func print*(nim2d: Nim2d, text: string, x, y: cint, fnt: Font): void =
   discard sizeText(fnt.fptr, text, unsafeAddr w, unsafeAddr h)
 
   let rect: Rect = (x, y, w, h)
-
   copy(nim2d.renderer, message, nil, unsafeAddr rect)
