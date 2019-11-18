@@ -1,41 +1,9 @@
+import nim2d/types
 import sdl2, sdl2/gfx
 
 discard sdl2.init(INIT_EVERYTHING)
 
-type
-  Nim2d* = ref object
-    window: WindowPtr
-    renderer*: RendererPtr
-    background*: tuple[r, g, b, a: uint8]
-    color*: tuple[r, g, b, a: uint8]
-    fpsman: FpsManager
-    running: bool
-
-    # Callbacks
-    load: proc(nim2d: Nim2d)
-    draw: proc(nim2d: Nim2d)
-    update: proc(nim2d: Nim2d, dt: float)
-    keydown: proc(nim2d: Nim2d, scancode: Scancode)
-    keyup: proc(nim2d: Nim2d, scancode: Scancode)
-    mousemove: proc(nim2d: Nim2d, x, y, dx, dy: int32)
-    mousepressed: proc(nim2d: Nim2d, x, y: int32, button, presses: uint8)
-    mousereleased: proc(nim2d: Nim2d, x, y: int32, button, presses: uint8)
-
-    # Window events
-    window_shown: proc(nim2d: Nim2d)
-    window_hidden: proc(nim2d: Nim2d)
-    window_moved: proc(nim2d: Nim2d)
-    window_resized: proc(nim2d: Nim2d)
-    window_size_changed: proc(nim2d: Nim2d)
-    window_minimized: proc(nim2d: Nim2d)
-    window_maximized: proc(nim2d: Nim2d)
-    window_restored: proc(nim2d: Nim2d)
-    window_enter: proc(nim2d: Nim2d)
-    window_leave: proc(nim2d: Nim2d)
-    window_focus_gained: proc(nim2d: Nim2d)
-    window_focus_lost: proc(nim2d: Nim2d)
-    window_close: proc(nim2d: Nim2d)
-    
+  
 # Callback setters
 # ----------------
 proc `load=`*(n2d: Nim2d, load: proc (nim2d: Nim2d)) {.inline.} =
@@ -233,3 +201,13 @@ proc play*(nim2d: Nim2d): void =
 
   destroy nim2d.renderer
   destroy nim2d.window
+
+
+func setColor*(nim2d: Nim2d, r, g, b, a: uint8) =
+  nim2d.color = (r, g, b, a)
+  
+func setBackgroundColor*(nim2d: Nim2d, r, g, b: uint8) =
+  nim2d.background = (r, g, b, uint8 255)
+
+func setFont*(nim2d: Nim2d, font: Font) =
+  nim2d.font = font

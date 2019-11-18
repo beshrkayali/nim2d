@@ -1,21 +1,83 @@
-import nim2d
+import nim2d/types
 import sdl2, sdl2/ttf, sdl2/gfx, sdl2/image
 
 ttfInit()
 
-type
-  Font* = object
-    fptr: FontPtr
+# TTF
+# ---
+
+func newFont*(filename: cstring, size: cint): Font =
+  let fptr: FontPtr = openFont(filename, size)
+  Font(address: fptr, filename: filename)
+
+proc getAscent*(font: Font) =
+  discard
+
+proc getBaseline*(font: Font) =
+  discard
+
+proc getDPIScale*(font: Font) =
+  discard
+
+proc getDescent*(font: Font) =
+  discard
+
+proc getFilter*(font: Font) =
+  discard
+
+proc getHeight*(font: Font) =
+  discard
+
+proc getLineHeight*(font: Font) =
+  discard
+
+proc getWidth*(font: Font) =
+  discard
+
+proc getWrap*(font: Font) =
+  discard
+
+proc hasGlyphs*(font: Font) =
+  discard
+
+
+func print*(nim2d: Nim2d, text: string, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0): void =
+  let surfaceMessage: SurfacePtr = renderTextSolid(
+    nim2d.font.address,
+    cstring text,
+    nim2d.color
+  )
+
+  let message = createTextureFromSurface(nim2d.renderer, surfaceMessage)
+
+  let w: cint = 0
+  let h: cint = 0
+  discard sizeText(nim2d.font.address, text, unsafeAddr w, unsafeAddr h)
+
+  let rect: Rect = (x, y, w, h)
+  copyEx(nim2d.renderer, message, nil, unsafeAddr rect, angle, center, flip)
+
+# proc setFallback*(font: Font) =
+#   discard
+
+# proc setFilter*(font: Font) =
+#   discard
+
+# proc setLineHeight*(font: Font) =
+#   discard
 
 type
-  Image* = object
+  Drawable* = ref object of RootObj
+
+
+type
+  Image* = ref object of Drawable
     texture: TexturePtr
     width: cint
     height: cint
 
 # Images
 # ------
-    
 proc newImage*(nim2d: Nim2d, file: string): Image =
   let surfaceImage: SurfacePtr = image.load(cstring file)
 
@@ -30,7 +92,7 @@ proc newImage*(nim2d: Nim2d, file: string): Image =
   return img
 
 
-proc draw*(nim2d: Nim2d, image: Image, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0) =
+proc draw*(image: Image, nim2d: Nim2d, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0) =
   let rect: Rect = (x, y, image.width, image.height)
   copyEx(nim2d.renderer, image.texture, nil, unsafeAddr rect, angle, center, flip)
 
@@ -94,36 +156,3 @@ proc polygon*(nim2d: Nim2d, x: seq[int16], y: seq[int16], filled: bool = false) 
 
 proc string*(nim2d: Nim2d, text: cstring, x, y: int16) =
   stringRGBA(nim2d.renderer, x, y, text,  nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
-
-
-# Color stuff
-# -----------
-func setColor*(nim2d: Nim2d, r, g, b, a: uint8) =
-  nim2d.color = (r, g, b, a)
-  
-func setBackgroundColor*(nim2d: Nim2d, r, g, b: uint8) =
-  nim2d.background = (r, g, b, uint8 255)
-
-
-# TTF
-# ----
-func newFont*(file: cstring, size: cint): Font =
-  var fptr: FontPtr
-  fptr = openFont(file, size)
-  Font(fptr: fptr)
-
-func print*(nim2d: Nim2d, text: string, x, y: cint, fnt: Font, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0): void =
-  let surfaceMessage: SurfacePtr = renderTextSolid(
-    fnt.fptr,
-    cstring text,
-    nim2d.color
-  )
-
-  let message = createTextureFromSurface(nim2d.renderer, surfaceMessage)
-
-  let w: cint = 0
-  let h: cint = 0
-  discard sizeText(fnt.fptr, text, unsafeAddr w, unsafeAddr h)
-
-  let rect: Rect = (x, y, w, h)
-  copyEx(nim2d.renderer, message, nil, unsafeAddr rect, angle, center, flip)
