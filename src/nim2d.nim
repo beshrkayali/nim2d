@@ -208,7 +208,8 @@ proc play*(nim2d: Nim2d): void =
             of WindowEvent_Close:
               nim2d.window_close(nim2d)
             else:
-              echo(evt.window.event)
+              # echo(evt.window.event)
+              discard
         else:
           # echo(evt)
           discard

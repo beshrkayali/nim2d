@@ -30,10 +30,9 @@ proc newImage*(nim2d: Nim2d, file: string): Image =
   return img
 
 
-proc draw*(nim2d: Nim2d, image: Image, x, y: cint) =
+proc draw*(nim2d: Nim2d, image: Image, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0) =
   let rect: Rect = (x, y, image.width, image.height)
-
-  copy(nim2d.renderer, image.texture, nil, unsafeAddr rect)
+  copyEx(nim2d.renderer, image.texture, nil, unsafeAddr rect, angle, center, flip)
 
 
 # Drawing
@@ -113,7 +112,7 @@ func newFont*(file: cstring, size: cint): Font =
   fptr = openFont(file, size)
   Font(fptr: fptr)
 
-func print*(nim2d: Nim2d, text: string, x, y: cint, fnt: Font): void =
+func print*(nim2d: Nim2d, text: string, x, y: cint, fnt: Font, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0): void =
   let surfaceMessage: SurfacePtr = renderTextSolid(
     fnt.fptr,
     cstring text,
@@ -127,4 +126,4 @@ func print*(nim2d: Nim2d, text: string, x, y: cint, fnt: Font): void =
   discard sizeText(fnt.fptr, text, unsafeAddr w, unsafeAddr h)
 
   let rect: Rect = (x, y, w, h)
-  copy(nim2d.renderer, message, nil, unsafeAddr rect)
+  copyEx(nim2d.renderer, message, nil, unsafeAddr rect, angle, center, flip)
