@@ -1,5 +1,5 @@
 import sdl2
-import nim2d, nim2d/graphics
+import nim2d, nim2d/types, nim2d/graphics
 
 let f1 = newFont("font.ttf", 72)
 let f2 = newFont("font.ttf", 110)
@@ -16,6 +16,8 @@ let n2d = newNim2d(
   0, 0,
   1024, 768,
 )
+
+let nimlogo = n2d.newImage("Nim-logo.png")
 
 n2d.keydown = proc (nim2d: Nim2d, scancode: Scancode) =
   if scancode == Scancode.SDL_SCANCODE_A:
@@ -61,17 +63,22 @@ n2d.update = proc (nim2d: Nim2d, dt: float) =
     anf = not anf
 
 n2d.draw = proc (nim2d: Nim2d) =
+  nimlogo.draw(nim2d, 0, 0, flip=0)
+
   nim2d.setColor(0, 0, 0, 255)
   nim2d.string($DT, 10, 10)
 
   nim2d.setColor(220, 249, 80, 255)
-  nim2d.print("NIM", 400, 300, f1)
+  nim2d.setFont(f1)
+  nim2d.print("NIM", 400, 300, -10)
 
   nim2d.setColor(255, 109, 82, 255)
-  nim2d.print("2D!", 485, 280, f2)
+  nim2d.setFont(f2)
+  nim2d.print("2D!", 485, 280,  10)
 
   nim2d.setColor(255, 255, 255, 255)
   nim2d.arc(100, 100, 100, 90, 0)
+
   var points = @[
     (cint 100, cint 100),
     (cint 150, cint 100),
