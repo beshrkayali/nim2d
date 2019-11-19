@@ -50,6 +50,18 @@ n2d.mousereleased = proc(nim2d: Nim2d, x, y: int32, button, presses: uint8) =
   
 n2d.load = proc (nim2d: Nim2d) =
   nim2d.setBackgroundColor(82, 93, 197)
+  echo("Font ascent:")
+  echo(f1.getAscent)
+
+  echo("Font descent:")
+  echo(f1.getDescent)
+
+  echo("Font height:")
+  echo(f1.getHeight)
+
+  echo("Font has glyphs:")
+  echo($f1.hasGlyphs(16))
+
 
 n2d.update = proc (nim2d: Nim2d, dt: float) =
   DT = dt
@@ -63,7 +75,7 @@ n2d.update = proc (nim2d: Nim2d, dt: float) =
     anf = not anf
 
 n2d.draw = proc (nim2d: Nim2d) =
-  nimlogo.draw(nim2d, 0, 0, flip=0)
+  nimlogo.draw(nim2d, 0, 0, 30, flip=0)
 
   nim2d.setColor(0, 0, 0, 255)
   nim2d.string($DT, 10, 10)
