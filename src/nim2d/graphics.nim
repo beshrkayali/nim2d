@@ -10,23 +10,14 @@ func newFont*(filename: cstring, size: cint): Font =
   let fptr: FontPtr = openFont(filename, size)
   Font(address: fptr, filename: filename, size: size)
 
-proc getAscent*(font: Font) =
-  discard
+proc getAscent*(font: Font): int =
+  fontAscent(font.address)
 
-proc getBaseline*(font: Font) =
-  discard
+proc getDescent*(font: Font): int =
+  fontDescent(font.address)
 
-proc getDPIScale*(font: Font) =
-  discard
-
-proc getDescent*(font: Font) =
-  discard
-
-proc getFilter*(font: Font) =
-  discard
-
-proc getHeight*(font: Font) =
-  discard
+proc getHeight*(font: Font): int =
+  fontHeight(font.address)
 
 proc getLineHeight*(font: Font) =
   discard
@@ -37,8 +28,8 @@ proc getWidth*(font: Font) =
 proc getWrap*(font: Font) =
   discard
 
-proc hasGlyphs*(font: Font) =
-  discard
+proc hasGlyphs*(font: Font, text: uint16): bool =
+  bool glyphIsProvided(font.address, text)
 
 
 proc print*(nim2d: Nim2d, text: string, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0): void =
