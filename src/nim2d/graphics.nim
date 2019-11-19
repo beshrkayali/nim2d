@@ -8,7 +8,7 @@ ttfInit()
 
 func newFont*(filename: cstring, size: cint): Font =
   let fptr: FontPtr = openFont(filename, size)
-  Font(address: fptr, filename: filename)
+  Font(address: fptr, filename: filename, size: size)
 
 proc getAscent*(font: Font) =
   discard
@@ -41,7 +41,11 @@ proc hasGlyphs*(font: Font) =
   discard
 
 
-func print*(nim2d: Nim2d, text: string, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0): void =
+proc print*(nim2d: Nim2d, text: string, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0): void =
+  if nim2d.font.address == nil:
+    echo("No font set")
+    return
+
   let surfaceMessage: SurfacePtr = renderTextSolid(
     nim2d.font.address,
     cstring text,
