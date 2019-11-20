@@ -2,7 +2,7 @@ import sdl2
 import nim2d, nim2d/types, nim2d/graphics
 
 let f1 = newFont("font.ttf", 72)
-let f2 = newFont("font.ttf", 110)
+# let f2 = newFont("font.ttf", 110)
 
 var DT: float = 0.0
 var X: int16 = 50
@@ -10,12 +10,16 @@ var Y: int16 = 420
 
 var an: int16 = 2
 var anf: bool = true
+var angle: cdouble = 0
 
 let n2d = newNim2d(
   "Test all",
   0, 0,
   1024, 768,
 )
+
+let hello = stringToRunePtr "Hello"
+let world = stringToRunePtr "World!"
 
 let nimlogo = n2d.newImage("Nim-logo.png")
 
@@ -62,9 +66,15 @@ n2d.load = proc (nim2d: Nim2d) =
   echo("Font has glyphs:")
   echo($f1.hasGlyphs(16))
 
+  echo("Size:")
+  echo($f1.getSize(stringToRunePtr "LOL"))
+
 
 n2d.update = proc (nim2d: Nim2d, dt: float) =
   DT = dt
+  angle = angle + (30 * dt)
+  if angle > 359:
+    angle = 0
 
   if anf:
     inc an
@@ -75,18 +85,17 @@ n2d.update = proc (nim2d: Nim2d, dt: float) =
     anf = not anf
 
 n2d.draw = proc (nim2d: Nim2d) =
-  nimlogo.draw(nim2d, 0, 0, 30, flip=0)
+  nimlogo.draw(nim2d, 0, 0, angle=angle, flip=0)
 
   nim2d.setColor(0, 0, 0, 255)
   nim2d.string($DT, 10, 10)
 
   nim2d.setColor(220, 249, 80, 255)
   nim2d.setFont(f1)
-  nim2d.print("NIM", 400, 300, -10)
+  nim2d.print(hello, 400, 300, angle = -10)
 
   nim2d.setColor(255, 109, 82, 255)
-  nim2d.setFont(f2)
-  nim2d.print("2D!", 485, 280,  10)
+  nim2d.print(world, 485, 280,  angle = 10)
 
   nim2d.setColor(255, 255, 255, 255)
   nim2d.arc(100, 100, 100, 90, 0)
