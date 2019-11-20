@@ -4,7 +4,6 @@ import nim2d, nim2d/types, nim2d/graphics
 let f1 = newFont("font.ttf", 72)
 # let f2 = newFont("font.ttf", 110)
 
-var DT: float = 0.0
 var X: int16 = 50
 var Y: int16 = 420
 
@@ -18,7 +17,7 @@ let n2d = newNim2d(
   1024, 768,
 )
 
-let hello = stringToRunePtr "Hello"
+let hello = stringToRunePtr "Hallå"
 let world = stringToRunePtr "World!"
 
 let nimlogo = n2d.newImage("Nim-logo.png")
@@ -67,11 +66,10 @@ n2d.load = proc (nim2d: Nim2d) =
   echo($f1.hasGlyphs(16))
 
   echo("Size:")
-  echo($f1.getSize(stringToRunePtr "LOL"))
+  echo($f1.getSize(stringToRunePtr "Hello world!"))
 
 
 n2d.update = proc (nim2d: Nim2d, dt: float) =
-  DT = dt
   angle = angle + (30 * dt)
   if angle > 359:
     angle = 0
@@ -88,14 +86,13 @@ n2d.draw = proc (nim2d: Nim2d) =
   nimlogo.draw(nim2d, 0, 0, angle=angle, flip=0)
 
   nim2d.setColor(0, 0, 0, 255)
-  nim2d.string($DT, 10, 10)
 
   nim2d.setColor(220, 249, 80, 255)
   nim2d.setFont(f1)
-  nim2d.print(hello, 400, 300, angle = -10)
+  nim2d.print(hello, 340, 300, angle = -10)
 
   nim2d.setColor(255, 109, 82, 255)
-  nim2d.print(world, 485, 280,  angle = 10)
+  nim2d.print(world, 475, 320)
 
   nim2d.setColor(255, 255, 255, 255)
   nim2d.arc(100, 100, 100, 90, 0)
@@ -129,8 +126,6 @@ n2d.draw = proc (nim2d: Nim2d) =
   nim2d.polygon(@[int16 100, int16 120, int16 140, int16 160, int16 180],
                 @[int16 50, int16 10, int16 90, int16 40, int16 0],
                 true)
-
-  nim2d.string("Hi! This demo tests all of nim2d's api", 400, 400)
 
 
 n2d.play()
