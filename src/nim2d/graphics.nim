@@ -32,8 +32,8 @@ proc getSize*(font: Font, text: ptr uint16): (cint, cint) =
 proc getWrap*(font: Font) =
   discard
 
-proc hasGlyphs*(font: Font, text: uint16): bool =
-  bool glyphIsProvided(font.address, text)
+proc hasGlyphs*(font: Font, text: ptr uint16): bool =
+  bool glyphIsProvided(font.address, text[])
 
 proc stringToRunePtr*(text: string): ptr uint16 = 
   var result = newSeq[uint16]()
@@ -73,22 +73,37 @@ proc print*(nim2d: Nim2d, text: ptr uint16, x, y: cint, w: cint = 0, h: cint = 0
 type
   Drawable* = ref object of RootObj
 
-
 type
-  Image* = ref object of Drawable
-    texture: TexturePtr
+  Texture = ref object of Drawable
+    data: TexturePtr
     width: cint
     height: cint
 
+
+proc loadTextureData(renderer: RendererPtr, filename: string): TexturePtr =
+  let surfaceImage: SurfacePtr = image.load(cstring filename)
+  createTextureFromSurface(renderer, surfaceImage)
+    
+proc newTexture*(renderer: RendererPtr, filename: string): Texture =
+  let texture = loadTextureData(renderer, filename)
+  Texture(data: texture)
+
+proc destroy*(texture: Texture) =
+  destroyTexture(texture.data)
+
+type
+  Image* = ref object of Texture
+    texture: TexturePtr
+    # width: cint
+    # height: cint
+
 # Images
 # ------
-proc newImage*(nim2d: Nim2d, file: string): Image =
-  let surfaceImage: SurfacePtr = image.load(cstring file)
-
-  let texture = createTextureFromSurface(nim2d.renderer, surfaceImage)
-
+proc newImage*(nim2d: Nim2d, filename: string): Image =
+  let texture = loadTextureData(nim2d.renderer, filename)
+  
   let img = Image(
-    texture: texture
+    data: texture
   )
 
   queryTexture(texture, nil, nil, unsafeAddr img.width, unsafeAddr img.height)
@@ -98,8 +113,16 @@ proc newImage*(nim2d: Nim2d, file: string): Image =
 
 proc draw*(image: Image, nim2d: Nim2d, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0) =
   let rect: Rect = (x, y, image.width, image.height)
-  copyEx(nim2d.renderer, image.texture, nil, unsafeAddr rect, angle, center, flip)
+  copyEx(nim2d.renderer, image.data, nil, unsafeAddr rect, angle, center, flip)
 
+proc getDimensions*(image: Image): (cint, cint) =
+  return (image.width, image.height)
+
+proc getWidth*(image: Image): cint =
+  return image.width
+
+proc getHeight*(image: Image): cint =
+  return image.height
 
 # Drawing
 # -------
