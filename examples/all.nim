@@ -63,7 +63,8 @@ n2d.load = proc (nim2d: Nim2d) =
   echo(f1.getHeight)
 
   echo("Font has glyphs:")
-  echo($f1.hasGlyphs(16))
+  # todo: fix this
+  # echo($f1.hasGlyphs(stringToRunePtr "ä"))
 
   echo("Size:")
   echo($f1.getSize(stringToRunePtr "Hello world!"))
