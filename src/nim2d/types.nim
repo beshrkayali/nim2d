@@ -19,6 +19,7 @@ type
     # Callbacks
     load*: proc(nim2d: Nim2d)
     draw*: proc(nim2d: Nim2d)
+    quit*: proc(nim2d: Nim2d)
     update*: proc(nim2d: Nim2d, dt: float)
     keydown*: proc(nim2d: Nim2d, scancode: Scancode)
     keyup*: proc(nim2d: Nim2d, scancode: Scancode)

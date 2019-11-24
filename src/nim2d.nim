@@ -15,6 +15,9 @@ proc `update=`*(n2d: Nim2d, update: proc (nim2d: Nim2d, dt: float)) {.inline.} =
 proc `draw=`*(n2d: Nim2d, draw: proc (nim2d: Nim2d)) {.inline.} =
   n2d.draw = draw
 
+proc `quit=`*(n2d: Nim2d, quit: proc (nim2d: Nim2d)) {.inline.} =
+  n2d.quit = quit
+
 proc `keydown=`*(n2d: Nim2d, keydown: proc (nim2d: Nim2d, scancode: Scancode)) {.inline.} =
   n2d.keydown = keydown
 
@@ -101,6 +104,7 @@ proc newNim2d*(title: string, x, y, width, height: cint, background: tuple[r, g,
     load: proc (nim2d: Nim2d) = discard,
     update: proc (nim2d: Nim2d, dt: float) = discard,
     draw: proc (nim2d: Nim2d) = discard,
+    quit: proc (nim2d: Nim2d) = discard,
     keydown: proc (nim2d: Nim2d, scancode: Scancode) = discard,
     keyup: proc (nim2d: Nim2d, scancode: Scancode) = discard,
     mousemove: proc(nim2d: Nim2d, x, y, dx, dy: int32) = discard,
@@ -135,6 +139,7 @@ proc play*(nim2d: Nim2d): void =
     while pollEvent(evt):
       case evt.kind:
         of QuitEvent:
+          nim2d.quit(nim2d)
           nim2d.running = false
         of KeyDown:
           nim2d.keydown(nim2d, evt.key.keysym.scancode)
