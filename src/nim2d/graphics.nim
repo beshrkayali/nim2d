@@ -91,6 +91,22 @@ proc newTexture*(renderer: RendererPtr, filename: string): Texture =
 proc destroy*(texture: Texture) =
   destroyTexture(texture.data)
 
+proc setColorMod*(texture: Texture, r, g, b: uint8): bool =
+  setTextureColorMod(texture.data, r, g, b) == SdlSuccess
+
+proc getColorMod*(texture: Texture): (uint8, uint8, uint8) =
+  var r, g, b: uint8
+  discard getTextureColorMod(texture.data, r, g, b)
+  return (r, g, b)
+
+proc setAlphaMod*(texture: Texture, alpha: uint8): bool =
+  setTextureAlphaMod(texture.data, alpha) == SdlSuccess
+
+proc getAlphaMod*(texture: Texture): uint =
+  var alpha: uint8
+  discard getTextureAlphaMod(texture.data, alpha)
+  return alpha
+
 type
   Image* = ref object of Texture
     texture: TexturePtr
