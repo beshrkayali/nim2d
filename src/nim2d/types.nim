@@ -1,6 +1,21 @@
 import sdl2, sdl2/ttf, sdl2/gfx
 
 type
+  Drawable* = ref object of RootObj
+
+type
+  Texture* = ref object of Drawable
+    data*: TexturePtr
+    width*: cint
+    height*: cint
+
+type
+  Image* = ref object of Texture
+    texture*: TexturePtr
+    # width: cint
+    # height: cint
+
+type
   Font* = object
     address*: FontPtr
     filename*: cstring

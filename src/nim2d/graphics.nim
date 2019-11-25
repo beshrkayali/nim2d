@@ -69,16 +69,7 @@ proc print*(nim2d: Nim2d, text: ptr uint16, x, y: cint, w: cint = 0, h: cint = 0
 
 # proc setLineHeight*(font: Font) =
 #   discard
-
-type
-  Drawable* = ref object of RootObj
-
-type
-  Texture = ref object of Drawable
-    data: TexturePtr
-    width: cint
-    height: cint
-
+    
 
 proc loadTextureData(renderer: RendererPtr, filename: string): TexturePtr =
   let surfaceImage: SurfacePtr = image.load(cstring filename)
@@ -107,11 +98,6 @@ proc getAlphaMod*(texture: Texture): uint =
   discard getTextureAlphaMod(texture.data, alpha)
   return alpha
 
-type
-  Image* = ref object of Texture
-    texture: TexturePtr
-    # width: cint
-    # height: cint
 
 # Images
 # ------
