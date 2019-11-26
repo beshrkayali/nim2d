@@ -21,6 +21,9 @@ let hello = stringToRunePtr "Hallå"
 let world = stringToRunePtr "World!"
 
 let nimlogo = n2d.newImage("Nim-logo.png")
+discard nimlogo.setColorMod(250, 250, 250)
+discard nimlogo.setAlphaMod(10)
+
 
 n2d.keydown = proc (nim2d: Nim2d, scancode: Scancode) =
   if scancode == Scancode.SDL_SCANCODE_A:
@@ -83,6 +86,10 @@ n2d.update = proc (nim2d: Nim2d, dt: float) =
   if an > 35 or an < 2:
     anf = not anf
 
+
+n2d.quit = proc (nim2d: Nim2d) =
+  echo("Quitting...")
+    
 n2d.draw = proc (nim2d: Nim2d) =
   nimlogo.draw(nim2d, 0, 0, angle=angle, flip=0)
 
