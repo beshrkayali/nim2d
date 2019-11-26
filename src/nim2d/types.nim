@@ -16,6 +16,10 @@ type
     # height: cint
 
 type
+  Canvas* = ref object of Image
+
+
+type
   Font* = object
     address*: FontPtr
     filename*: cstring
@@ -23,6 +27,8 @@ type
 
 type
   Nim2d* = ref object
+    width*: cint
+    height*: cint
     window*: WindowPtr
     renderer*: RendererPtr
     background*: tuple[r, g, b, a: uint8]

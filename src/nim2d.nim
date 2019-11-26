@@ -94,6 +94,8 @@ proc newNim2d*(title: string, x, y, width, height: cint, background: tuple[r, g,
   let color = (uint8 0, uint8 0, uint8 0, uint8 255)
 
   Nim2d(
+    width: width,
+    height: height,
     background: background,
     color: color,
     window: window,
@@ -196,10 +198,8 @@ proc play*(nim2d: Nim2d): void =
       nim2d.background.a
     )
 
-    nim2d.renderer.clear
-
+    nim2d.renderer.clear()
     nim2d.draw(nim2d)
-
     nim2d.renderer.present
     nim2d.fpsman.delay
     nim2d.update(nim2d, dt)
@@ -216,3 +216,30 @@ func setBackgroundColor*(nim2d: Nim2d, r, g, b: uint8) =
 
 func setFont*(nim2d: Nim2d, font: Font) =
   nim2d.font = font
+
+func setCanvas*(nim2d: Nim2d) =
+  setRenderTarget(nim2d.renderer, nil)
+
+func setCanvas*(nim2d: Nim2d, canvas: Canvas) =
+  setRenderTarget(nim2d.renderer, canvas.data)
+
+func setBlendMode*(nim2d: Nim2d, ) =
+  setDrawBlendMode(nim2d.renderer, BlendMode_None)
+
+func setBlendMode*(nim2d: Nim2d, blend: string) =
+  var blending: BlendMode
+  if blend == "blend":
+    blending = BlendMode_Blend
+  elif blend == "add":
+    blending = BlendMode_Add
+  elif blend == "mod":
+    blending = BlendMode_Mod
+  else:
+    blending = BlendMode_None
+
+  setDrawBlendMode(nim2d.renderer, blending)
+
+
+func clear*(nim2d: Nim2d) =
+  nim2d.setColor(255, 255, 255, 255)
+  sdl2.clear(nim2d.renderer)  
