@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install deps
-      run: sudo apt-get install libsdl2-2.0 libsdl2-gfx-2.0-0 libsdl2-image-gfx-2.0-0
+      run: sudo apt-get install libsdl2-2.0 libsdl2-gfx-2.0-0 libsdl2-image-2.0-0 libsdl2-ttf-2.0-0
     - uses: actions/checkout@master
     - name: Cache choosenim
       id: cache-choosenim
