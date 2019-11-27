@@ -136,20 +136,20 @@ proc newCanvas*(nim2d: Nim2d, width, height: cint): Canvas =
     SDL_TEXTUREACCESS_TARGET,
     width,
     height,
-  );
-  echo((width, height))
+  )
 
   Canvas(
-    data: textureData
+    data: textureData,
+    width: width,
+    height: height
   )
 
 
 proc newCanvas*(nim2d: Nim2d): Canvas =
   newCanvas(nim2d, nim2d.width, nim2d.height)
-
   
-# Drawing
-# -------
+# Shapes
+# ------
 proc line*(nim2d: Nim2d, points: seq[Point]) =
   setDrawColor(nim2d.renderer, nim2d.color.r, nim2d.color.g, nim2d.color.b)
   drawLines(nim2d.renderer, unsafeAddr points[0], cint len points)
