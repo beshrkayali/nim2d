@@ -1,8 +1,9 @@
 import sdl2
 import nim2d, nim2d/types, nim2d/graphics
 
+let f0 = newFont("font.ttf", 36)
 let f1 = newFont("font.ttf", 72)
-# let f2 = newFont("font.ttf", 110)
+let f2 = newFont("font.ttf", 110)
 
 var X: int16 = 50
 var Y: int16 = 420
@@ -22,8 +23,6 @@ let world = stringToRunePtr "World!"
 
 let nimlogo = n2d.newImage("Nim-logo.png")
 discard nimlogo.setColorMod(250, 250, 250)
-discard nimlogo.setAlphaMod(10)
-
 
 n2d.keydown = proc (nim2d: Nim2d, scancode: Scancode) =
   if scancode == Scancode.SDL_SCANCODE_A:
@@ -53,7 +52,9 @@ n2d.mousereleased = proc(nim2d: Nim2d, x, y: int32, button, presses: uint8) =
   let x = X
   X = Y
   Y = x
-  
+
+let canvas = n2d.newCanvas(250, 250)
+
 n2d.load = proc (nim2d: Nim2d) =
   nim2d.setBackgroundColor(82, 93, 197)
   echo("Font ascent:")
@@ -72,9 +73,19 @@ n2d.load = proc (nim2d: Nim2d) =
   echo("Size:")
   echo($f1.getSize(stringToRunePtr "Hello world!"))
 
+  nim2d.setCanvas(canvas)
+  nim2d.clear()
+  nim2d.setBackgroundColor(255, 255, 255)
+  nim2d.setFont(f0)
+  nim2d.print(stringToRunePtr "Canvas", 20, 20, angle = 0)
+  discard nimlogo.setAlphaMod(255)
+  nimlogo.draw(nim2d, 120, 20, angle=angle, flip=0, scale=0.1)
+  discard nimlogo.setAlphaMod(10)
+  nim2d.setCanvas()
 
 n2d.update = proc (nim2d: Nim2d, dt: float) =
   angle = angle + (30 * dt)
+
   if angle > 359:
     angle = 0
 
@@ -93,17 +104,20 @@ n2d.quit = proc (nim2d: Nim2d) =
 n2d.draw = proc (nim2d: Nim2d) =
   nimlogo.draw(nim2d, 0, 0, angle=angle, flip=0)
 
+  canvas.draw(nim2d, 300, 10, 0, flip=0)
+  discard canvas.setAlphaMod(255)
+
   nim2d.setColor(0, 0, 0, 255)
 
   nim2d.setColor(220, 249, 80, 255)
   nim2d.setFont(f1)
-  nim2d.print(hello, 340, 300, angle = -10)
+  nim2d.print(hello, 340, 300, angle = angle * -1)
 
   nim2d.setColor(255, 109, 82, 255)
-  nim2d.print(world, 475, 320)
+  nim2d.print(world, 475, 320, angle = angle)
 
   nim2d.setColor(255, 255, 255, 255)
-  nim2d.arc(100, 100, 100, 90, 0)
+  nim2d.arc(100, 100, 100, 90, int16 angle)
 
   var points = @[
     (cint 100, cint 100),
