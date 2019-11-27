@@ -113,8 +113,8 @@ proc newImage*(nim2d: Nim2d, filename: string): Image =
   return img
 
 
-proc draw*(image: Image, nim2d: Nim2d, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0) =
-  let rect: Rect = (x, y, image.width, image.height)
+proc draw*(image: Image, nim2d: Nim2d, x, y: cint, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0, scale: float = 1.0) =
+  let rect: Rect = (x, y, cint(float(image.width) * scale), cint(float(image.height) * scale))
   copyEx(nim2d.renderer, image.data, nil, unsafeAddr rect, angle, center, flip)
 
 proc getDimensions*(image: Image): (cint, cint) =
