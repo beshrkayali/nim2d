@@ -15,6 +15,7 @@ jobs:
     steps:
     - name: Install deps
       run: sudo apt-get install libsdl2-2.0-0 libsdl2-gfx-1.0-0 libsdl2-image-2.0-0 libsdl2-ttf-2.0-0
+    - run: ln -s /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0 /usr/lib/libSDL2.so; ln -s /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0 /usr/local/lib/libSDL2.so
     - uses: actions/checkout@master
     - name: Cache choosenim
       id: cache-choosenim
