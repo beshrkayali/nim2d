@@ -13,6 +13,8 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
+    - name: Install deps
+      run: sudo apt-get install libsdl2-2.0
     - uses: actions/checkout@master
     - name: Cache choosenim
       id: cache-choosenim
