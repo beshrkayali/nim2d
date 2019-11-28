@@ -197,7 +197,6 @@ proc play*(nim2d: Nim2d): void =
       nim2d.background.b,
       nim2d.background.a
     )
-
     nim2d.renderer.clear()
     nim2d.draw(nim2d)
     nim2d.renderer.present
@@ -213,6 +212,13 @@ func setColor*(nim2d: Nim2d, r, g, b, a: uint8) =
   
 func setBackgroundColor*(nim2d: Nim2d, r, g, b: uint8) =
   nim2d.background = (r, g, b, uint8 255)
+  nim2d.renderer.setDrawColor(
+    nim2d.background.r,
+    nim2d.background.g,
+    nim2d.background.b,
+    nim2d.background.a
+  )
+  nim2d.renderer.clear()
 
 func setFont*(nim2d: Nim2d, font: Font) =
   nim2d.font = font
