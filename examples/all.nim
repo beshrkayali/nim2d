@@ -56,7 +56,6 @@ n2d.mousereleased = proc(nim2d: Nim2d, x, y: int32, button, presses: uint8) =
 let canvas = n2d.newCanvas(250, 250)
 
 n2d.load = proc (nim2d: Nim2d) =
-  nim2d.setBackgroundColor(82, 93, 197)
   echo("Font ascent:")
   echo(f1.getAscent)
 
@@ -74,14 +73,17 @@ n2d.load = proc (nim2d: Nim2d) =
   echo($f1.getSize(stringToRunePtr "Hello world!"))
 
   nim2d.setCanvas(canvas)
-  nim2d.clear()
-  nim2d.setBackgroundColor(255, 255, 255)
+  nim2d.setBackgroundColor(240, 240, 240)
   nim2d.setFont(f0)
   nim2d.print(stringToRunePtr "Canvas", 20, 20, angle = 0)
+
   discard nimlogo.setAlphaMod(255)
-  nimlogo.draw(nim2d, 120, 20, angle=angle, flip=0, scale=0.1)
+
+  nimlogo.draw(nim2d, 70, 100, angle=angle, flip=0, scale=0.1)
+
   discard nimlogo.setAlphaMod(10)
   nim2d.setCanvas()
+  nim2d.setBackgroundColor(82, 93, 197)
 
 n2d.update = proc (nim2d: Nim2d, dt: float) =
   angle = angle + (30 * dt)
