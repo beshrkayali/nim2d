@@ -1,9 +1,12 @@
 import nim2d/types
-import sdl2, sdl2/gfx
+import sdl2, sdl2/gfx, sdl2/ttf
 
 discard sdl2.init(INIT_EVERYTHING)
 
-  
+# Temp always init
+ttfInit()
+
+
 # Callback setters
 # ----------------
 proc `load=`*(n2d: Nim2d, load: proc (nim2d: Nim2d)) {.inline.} =
@@ -245,7 +248,8 @@ func setBlendMode*(nim2d: Nim2d, blend: string) =
 
   setDrawBlendMode(nim2d.renderer, blending)
 
+func clear*(nim2d: Nim2d, r, g, b: uint8) =
+  nim2d.setBackgroundColor(r, g, b)
 
 func clear*(nim2d: Nim2d) =
-  nim2d.setColor(255, 255, 255, 255)
-  sdl2.clear(nim2d.renderer)  
+  nim2d.clear(255, 255, 255)

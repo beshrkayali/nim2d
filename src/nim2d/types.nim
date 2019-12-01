@@ -1,5 +1,7 @@
 import sdl2, sdl2/ttf, sdl2/gfx
 
+# Drawables
+
 type
   Drawable* = ref object of RootObj
 
@@ -18,12 +20,21 @@ type
 type
   Canvas* = ref object of Image
 
+# Data
+
+type
+  Data* = ref object of RootObj
+
+type
+  ImageData* = ref object of Data
 
 type
   Font* = object
     address*: FontPtr
     filename*: cstring
     size*: cint
+
+# Nim2d
 
 type
   Nim2d* = ref object
