@@ -1,5 +1,5 @@
 import sdl2
-import nim2d, nim2d/types, nim2d/graphics
+import nim2d, nim2d/types, nim2d/graphics, nim2d/canvas, nim2d/image, nim2d/font
 
 let f0 = newFont("font.ttf", 36)
 let f1 = newFont("font.ttf", 72)
@@ -53,7 +53,7 @@ n2d.mousereleased = proc(nim2d: Nim2d, x, y: int32, button, presses: uint8) =
   X = Y
   Y = x
 
-let canvas = n2d.newCanvas(250, 250)
+let canv = n2d.newCanvas(250, 250)
 
 n2d.load = proc (nim2d: Nim2d) =
   echo("Font ascent:")
@@ -72,7 +72,7 @@ n2d.load = proc (nim2d: Nim2d) =
   echo("Size:")
   echo($f1.getSize(stringToRunePtr "Hello world!"))
 
-  nim2d.setCanvas(canvas)
+  nim2d.setCanvas(canv)
   nim2d.setBackgroundColor(240, 240, 240)
   nim2d.setFont(f0)
   nim2d.print(stringToRunePtr "Canvas", 20, 20, angle = 0)
@@ -106,8 +106,8 @@ n2d.quit = proc (nim2d: Nim2d) =
 n2d.draw = proc (nim2d: Nim2d) =
   nimlogo.draw(nim2d, 0, 0, angle=angle, flip=0)
 
-  canvas.draw(nim2d, 300, 10, 0, flip=0)
-  discard canvas.setAlphaMod(255)
+  canv.draw(nim2d, 300, 10, 0, flip=0)
+  discard canv.setAlphaMod(255)
 
   nim2d.setColor(0, 0, 0, 255)
 
