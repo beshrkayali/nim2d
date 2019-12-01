@@ -9,44 +9,61 @@ proc line*(nim2d: Nim2d, points: seq[Point]) =
 
 proc circle*(nim2d: Nim2d, x, y, rad: int16, filled: bool = false) =
   if filled:
-    filledCircleRGBA(nim2d.renderer, x, y, rad, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    filledCircleRGBA(nim2d.renderer, x, y, rad, nim2d.color.r, nim2d.color.g,
+        nim2d.color.b, nim2d.color.a)
   else:
-    aacircleRGBA(nim2d.renderer, x, y, rad, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    aacircleRGBA(nim2d.renderer, x, y, rad, nim2d.color.r, nim2d.color.g,
+        nim2d.color.b, nim2d.color.a)
 
-proc rectangle*(nim2d: Nim2d, x1, y1, width, height: int16, filled: bool = false, roundness: int16 = 0) =
+proc rectangle*(nim2d: Nim2d, x1, y1, width, height: int16,
+    filled: bool = false, roundness: int16 = 0) =
   if filled:
     if roundness > 0:
-      roundedBoxRGBA(nim2d.renderer, x1, y1, x1 + width, y1  + height, roundness, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+      roundedBoxRGBA(nim2d.renderer, x1, y1, x1 + width, y1 + height, roundness,
+          nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
     else:
-      boxRGBA(nim2d.renderer, x1, y1, x1 + width, y1  + height, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+      boxRGBA(nim2d.renderer, x1, y1, x1 + width, y1 + height, nim2d.color.r,
+          nim2d.color.g, nim2d.color.b, nim2d.color.a)
   else:
     if roundness > 0:
-      roundedRectangleRGBA(nim2d.renderer, x1, y1, x1 + width, y1  + height, roundness, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+      roundedRectangleRGBA(nim2d.renderer, x1, y1, x1 + width, y1 + height,
+          roundness, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
     else:
-      rectangleRGBA(nim2d.renderer, x1, y1, x1 + width, y1 + height, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+      rectangleRGBA(nim2d.renderer, x1, y1, x1 + width, y1 + height,
+          nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
 
 proc arc*(nim2d: Nim2d, x, y, rad, angle1, angle2: int16) =
-  arcRGBA(nim2d.renderer, x, y, rad, angle1, angle2, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+  arcRGBA(nim2d.renderer, x, y, rad, angle1, angle2, nim2d.color.r,
+      nim2d.color.g, nim2d.color.b, nim2d.color.a)
 
-proc pie*(nim2d: Nim2d, x, y, rad, angle1, angle2: int16, filled: bool = false) =
+proc pie*(nim2d: Nim2d, x, y, rad, angle1, angle2: int16,
+    filled: bool = false) =
   if filled:
-    filledPieRGBA(nim2d.renderer, x, y, rad, angle1, angle2, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    filledPieRGBA(nim2d.renderer, x, y, rad, angle1, angle2, nim2d.color.r,
+        nim2d.color.g, nim2d.color.b, nim2d.color.a)
   else:
-    pieRGBA(nim2d.renderer, x, y, rad, angle1, angle2, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    pieRGBA(nim2d.renderer, x, y, rad, angle1, angle2, nim2d.color.r,
+        nim2d.color.g, nim2d.color.b, nim2d.color.a)
 
 proc ellipse*(nim2d: Nim2d, x, y, width, height: int16, filled: bool = false) =
   if filled:
-    filledEllipseRGBA(nim2d.renderer, x, y, width, height, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    filledEllipseRGBA(nim2d.renderer, x, y, width, height, nim2d.color.r,
+        nim2d.color.g, nim2d.color.b, nim2d.color.a)
   else:
-    aaellipseRGBA(nim2d.renderer, x, y, width, height, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    aaellipseRGBA(nim2d.renderer, x, y, width, height, nim2d.color.r,
+        nim2d.color.g, nim2d.color.b, nim2d.color.a)
 
-proc triangle*(nim2d: Nim2d, x1, y1, x2, y2, x3, y3: int16, filled: bool = false) =
+proc triangle*(nim2d: Nim2d, x1, y1, x2, y2, x3, y3: int16,
+    filled: bool = false) =
   if filled:
-    filledTrigonRGBA(nim2d.renderer, x1, y1, x2, y2, x3, y3, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    filledTrigonRGBA(nim2d.renderer, x1, y1, x2, y2, x3, y3, nim2d.color.r,
+        nim2d.color.g, nim2d.color.b, nim2d.color.a)
   else:
-    aaTrigonRGBA(nim2d.renderer, x1, y1, x2, y2, x3, y3, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    aaTrigonRGBA(nim2d.renderer, x1, y1, x2, y2, x3, y3, nim2d.color.r,
+        nim2d.color.g, nim2d.color.b, nim2d.color.a)
 
-proc polygon*(nim2d: Nim2d, x: seq[int16], y: seq[int16], filled: bool = false) =
+proc polygon*(nim2d: Nim2d, x: seq[int16], y: seq[int16],
+    filled: bool = false) =
   if len(x) != len(y):
     raise newException(OSError, "Length of x and y array must match")
 
@@ -54,6 +71,8 @@ proc polygon*(nim2d: Nim2d, x: seq[int16], y: seq[int16], filled: bool = false) 
     raise newException(OSError, "Length of x and y array must be at least 3")
 
   if filled:
-    filledPolygonRGBA(nim2d.renderer, unsafeAddr x[0], unsafeAddr y[0], cint len x, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    filledPolygonRGBA(nim2d.renderer, unsafeAddr x[0], unsafeAddr y[0],
+        cint len x, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
   else:
-    aaPolygonRGBA(nim2d.renderer, unsafeAddr x[0], unsafeAddr y[0], cint len x, nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)
+    aaPolygonRGBA(nim2d.renderer, unsafeAddr x[0], unsafeAddr y[0], cint len x,
+        nim2d.color.r, nim2d.color.g, nim2d.color.b, nim2d.color.a)

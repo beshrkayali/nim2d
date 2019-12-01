@@ -31,14 +31,16 @@ proc getWrap*(font: Font) =
 proc hasGlyphs*(font: Font, text: ptr uint16): bool =
   bool glyphIsProvided(font.address, text[])
 
-proc stringToRunePtr*(text: string): ptr uint16 = 
+proc stringToRunePtr*(text: string): ptr uint16 =
   var result = newSeq[uint16]()
   for r in text.runes:
     result.add(uint16 r)
 
   return unsafeAddr result[0]
 
-proc print*(nim2d: Nim2d, text: ptr uint16, x, y: cint, w: cint = 0, h: cint = 0, angle: cdouble = 0, center: ptr Point = nil, flip: cint = 0): void =
+proc print*(nim2d: Nim2d, text: ptr uint16, x, y: cint, w: cint = 0,
+    h: cint = 0, angle: cdouble = 0, center: ptr Point = nil,
+    flip: cint = 0): void =
   if nim2d.font.address == nil:
     echo("No font set")
     return
